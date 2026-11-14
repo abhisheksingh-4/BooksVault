@@ -1,68 +1,152 @@
 # BooksVault
 
-**A considered workspace for library collections, members, and circulation.**
+### A considered workspace for library collections, members, and circulation.
 
-BooksVault is a full-stack Library Management System for organizing a catalog, managing member accounts, and tracking book issues and returns. Its React frontend communicates with a FastAPI backend through a JSON API protected by JWT authentication and role-based access.
+BooksVault is a full-stack Library Management System designed to simplify library operations through a modern, responsive web interface. It helps administrators and librarians manage books, members, catalog information, book circulation, and library activities from one centralized platform.
 
-## Screenshots
+Built with **React 19, Vite, FastAPI, and SQLAlchemy**, BooksVault uses a RESTful JSON API with JWT authentication and role-based access control.
 
-| Landing page | Library overview | Book catalog |
-| --- | --- | --- |
-| _Screenshot placeholder — add `docs/screenshots/landing.png`_ | _Screenshot placeholder — add `docs/screenshots/dashboard.png`_ | _Screenshot placeholder — add `docs/screenshots/catalog.png`_ |
+## Live Deployment
 
-Replace these placeholders with captured product screenshots before publishing the portfolio.
+| Component | Technology | Deployment |
+|---|---|---|
+| Frontend | React + Vite | Railway |
+| Backend | FastAPI + Python | Railway |
+| Database | MySQL / SQLite | Configured through backend environment |
 
-## Features
+- **Frontend:** https://incredible-manifestation-production-780e8fc6.up.railway.app/
+- **Backend API:** booksvault-production.up.railway.app
+- **API Documentation:** https://booksvault-production.up.railway.app/docs
 
-- **Authentication and access control:** JWT sign-in with Admin, Librarian, and Member roles.
-- **Catalog management:** Create, view, update, and delete books, authors, categories, and publishers.
-- **Catalog discovery:** Search, filter, sort, and paginate books by supported catalog fields.
-- **Member management:** Maintain member records and view borrowing history.
-- **Circulation:** Issue available books and record returns.
-- **Dashboard and reports:** Review library statistics, recent issues and returns, popular titles, overdue members, and fines.
-- **Operational records:** Review activity logs and fine records.
-- **Consistent API responses:** API responses use a `{ "success", "message", "data" }` envelope.
-- **Responsive interface:** Reusable forms, tables, dialogs, loading states, and empty states.
+## Key Features
 
-## Tech stack
+### 1. Authentication and Authorization
+- Secure user authentication using JWT.
+- Role-based access control.
+- Supports Admin, Librarian, and Member roles.
+- Protected API endpoints.
+- Password hashing using bcrypt.
 
-| Area | Technologies |
-| --- | --- |
-| Frontend | React 19, Vite, React Router, Axios, Tailwind CSS |
-| Forms and feedback | React Hook Form, React Hot Toast, Lucide React |
-| Backend | FastAPI, Python, Pydantic Settings |
-| Data access | SQLAlchemy, MySQL/PyMySQL, SQLite for local development |
-| Authentication | JWT (PyJWT), bcrypt password hashing |
-| Migrations | Alembic configuration |
-| Tests | pytest, HTTPX |
+### 2. Book and Catalog Management
+- Add, view, update, and delete books.
+- Manage authors, categories, and publishers.
+- Search books using supported catalog fields.
+- Filter, sort, and paginate book records.
+- Track available book information.
 
-## Architecture
+### 3. Member Management
+- Register and manage library members.
+- Maintain member information.
+- View individual borrowing history.
+- Manage member-related records.
+
+### 4. Book Circulation
+- Issue available books to members.
+- Record book returns.
+- Track circulation activities.
+- Maintain borrowing records.
+
+### 5. Dashboard and Reports
+- View overall library statistics.
+- Monitor recent book issues and returns.
+- Identify popular books.
+- Review overdue members and fines.
+- Access library activity information.
+
+### 6. Operational Management
+- Maintain fine records.
+- Review activity logs.
+- Monitor library operations.
+- Maintain consistent API response structures.
+
+### 7. Responsive User Interface
+- Modern React-based interface.
+- Reusable components.
+- Responsive layouts.
+- Interactive forms and dialogs.
+- Loading indicators and empty states.
+- User notifications using React Hot Toast.
+
+## Technology Stack
+
+| Category | Technologies |
+|---|---|
+| Frontend | React 19, Vite 7 |
+| Routing | React Router |
+| API Communication | Axios |
+| Styling | Tailwind CSS |
+| Forms | React Hook Form |
+| Icons | Lucide React |
+| Notifications | React Hot Toast |
+| Backend | FastAPI, Python |
+| Validation | Pydantic |
+| ORM | SQLAlchemy |
+| Database | MySQL, SQLite |
+| Authentication | JWT, PyJWT |
+| Password Security | bcrypt |
+| Database Migrations | Alembic |
+| Testing | pytest, HTTPX |
+| Deployment | Railway |
+
+## System Architecture
+
+BooksVault follows a client-server architecture. The React frontend communicates with the FastAPI backend through REST API endpoints using Axios.
 
 ```mermaid
-flowchart LR
-    Browser["Browser"]
-    UI["React + Vite<br/>Pages, components, routes"]
-    Client["Axios services<br/>JWT request interceptor"]
-    API["FastAPI<br/>API routers"]
-    Auth["Dependencies<br/>Authentication and role checks"]
-    Schemas["Pydantic schemas"]
-    Services["Services"]
-    Repositories["Repositories"]
-    Models["SQLAlchemy models"]
-    DB[("MySQL or SQLite")]
+flowchart TD
+    A[User / Browser]
+    B[React + Vite Frontend]
+    C[Axios API Client]
+    D[FastAPI Backend]
+    E[JWT Authentication]
+    F[API Routers]
+    G[Services and Repositories]
+    H[SQLAlchemy ORM]
+    I[(MySQL / SQLite)]
 
-    Browser --> UI --> Client --> API
-    API --> Auth
-    API --> Schemas
-    API --> Services --> Repositories --> Models --> DB
+    A --> B
+    B --> C
+    C --> D
+    D --> E
+    D --> F
+    F --> G
+    G --> H
+    H --> I
+    I --> H
+    H --> G
+    G --> D
+    D --> C
+    C --> B
 ```
 
-The canonical backend entry point is `backend.app.main:app`. The application mounts its routers under `/api`; the root `app/main.py` is a compatibility wrapper.
+### Application Workflow
 
-## Project structure
+1. Users access the application through a web browser.
+2. The React frontend displays the application interface.
+3. Axios sends HTTP requests to the FastAPI backend.
+4. The backend validates requests and checks authentication permissions.
+5. Services and repositories process business logic and database operations.
+6. SQLAlchemy communicates with the configured database.
+7. The backend returns structured JSON responses.
+8. The frontend displays the returned information.
+
+### Deployment Architecture
+
+The frontend and backend are deployed as separate services on Railway.
+
+- **Frontend service:** React + Vite production application.
+- **Backend service:** FastAPI application.
+- **Communication:** HTTPS-based API requests.
+- **Authentication:** JWT bearer tokens.
+- **API base path:** `/api`.
+
+The frontend uses the `VITE_API_URL` environment variable to identify the deployed backend API.
+
+## Project Structure
 
 ```text
-.
+BooksVault/
+│
 ├── backend/
 │   ├── alembic/
 │   │   ├── env.py
@@ -77,173 +161,392 @@ The canonical backend entry point is `backend.app.main:app`. The application mou
 │       │       ├── catalog.py
 │       │       ├── dashboard.py
 │       │       └── members.py
-│       ├── core/config.py
+│       ├── core/
+│       │   └── config.py
 │       ├── database/
 │       │   ├── base.py
 │       │   ├── seed.py
 │       │   └── session.py
 │       ├── middleware/
-│       ├── models/models.py
+│       ├── models/
+│       │   └── models.py
 │       ├── repositories/
-│       ├── schemas/schemas.py
+│       ├── schemas/
+│       │   └── schemas.py
 │       ├── services/
 │       └── main.py
+│
 ├── frontend/
 │   ├── public/
-│   └── src/
-│       ├── assets/
-│       ├── components/
-│       ├── context/
-│       ├── hooks/
-│       ├── layouts/
-│       ├── pages/
-│       ├── routes/
-│       ├── services/
-│       └── utils/
+│   ├── src/
+│   │   ├── assets/
+│   │   ├── components/
+│   │   ├── context/
+│   │   ├── hooks/
+│   │   ├── layouts/
+│   │   ├── pages/
+│   │   ├── routes/
+│   │   ├── services/
+│   │   └── utils/
+│   ├── package.json
+│   └── vite.config.js
+│
 ├── tests/
 │   ├── test_api.py
 │   └── test_library_features.py
+│
 ├── app/
-│   └── main.py                 # Compatibility wrapper
+│   └── main.py
+│
 ├── requirements.txt
 └── README.md
 ```
 
-## Installation
+## Installation and Setup
 
-Prerequisites: Python, Node.js with npm, and optionally MySQL. Without a database URL or the MySQL opt-in setting, the backend uses a local SQLite database.
+### Prerequisites
 
-### Backend
+- Python 3.10 or later (compatible with your dependencies).
+- Node.js and npm.
+- Git.
+- MySQL (optional; SQLite can be used for local development).
 
-From the repository root, create and activate a virtual environment, then install the Python dependencies:
+### 1. Clone the Repository
 
-```powershell
-python -m venv .venv
-.\.venv\Scripts\Activate.ps1
-pip install -r requirements.txt
+```bash
+git clone https://github.com/abhisheksingh-4/BooksVault.git
+
+cd BooksVault
 ```
 
-On macOS or Linux, activate the environment with:
+### 2. Backend Setup
+
+Create a Python virtual environment:
+
+```bash
+python -m venv .venv
+```
+
+Activate it on Windows PowerShell:
+
+```powershell
+.venv\Scripts\Activate.ps1
+```
+
+On macOS or Linux:
 
 ```bash
 source .venv/bin/activate
 ```
 
-### Frontend
+Install backend dependencies:
 
 ```bash
-cd frontend
-npm install
+pip install -r requirements.txt
 ```
 
-## Environment variables
+### 3. Backend Environment Configuration
 
-Backend settings are read from a root `.env` file or the process environment. The settings prefix is `LIBRAFLOW_` for compatibility with existing deployments.
+Create a `.env` file in the repository root.
 
-| Variable | Purpose | Default |
-| --- | --- | --- |
-| `LIBRAFLOW_APP_NAME` | Application name setting | `BooksVault` |
-| `LIBRAFLOW_SECRET_KEY` | JWT signing secret | Development-only value; replace it |
-| `LIBRAFLOW_ALGORITHM` | JWT signing algorithm | `HS256` |
-| `LIBRAFLOW_ACCESS_TOKEN_EXPIRE_DAYS` | Token lifetime in days | `1` |
-| `LIBRAFLOW_DATABASE_URL` | SQLAlchemy connection URL | Local SQLite fallback: `sqlite:///./libraflow.db` |
-| `LIBRAFLOW_DATABASE_ECHO` | Enable SQLAlchemy SQL logging | `false` |
-| `LIBRAFLOW_USE_MYSQL` | Use the configured MySQL default when no database URL is supplied | `false` |
-| `VITE_API_URL` | Frontend API base URL | `http://localhost:8000/api` |
-
-Example backend `.env` for MySQL:
+Example:
 
 ```dotenv
 LIBRAFLOW_APP_NAME=BooksVault
-LIBRAFLOW_SECRET_KEY=replace-with-a-long-random-secret
+LIBRAFLOW_SECRET_KEY=replace-with-a-secure-random-secret
 LIBRAFLOW_ALGORITHM=HS256
 LIBRAFLOW_ACCESS_TOKEN_EXPIRE_DAYS=1
-LIBRAFLOW_DATABASE_URL=mysql+pymysql://user:password@localhost:3306/booksvault?charset=utf8mb4
+
+LIBRAFLOW_DATABASE_URL=sqlite:///./libraflow.db
+
 LIBRAFLOW_DATABASE_ECHO=false
+LIBRAFLOW_USE_MYSQL=false
 ```
 
-For frontend development, create `frontend/.env.local` if the API is not running at its default URL:
+For MySQL, configure:
 
 ```dotenv
-VITE_API_URL=http://localhost:8000/api
+LIBRAFLOW_DATABASE_URL=mysql+pymysql://user:password@localhost:3306/booksvault?charset=utf8mb4
 ```
 
-Never use the development signing secret or seeded credentials in a public deployment. URL-encode special characters in database credentials.
+Use secure production credentials and never commit secret environment files to GitHub.
 
-## Running locally
+### 4. Start the Backend
 
-Start the backend from the repository root:
+From the repository root:
 
 ```bash
 uvicorn backend.app.main:app --reload
 ```
 
-In another terminal, start the frontend:
+Backend local URL:
+
+```text
+http://localhost:8000
+```
+
+API documentation:
+
+```text
+http://localhost:8000/docs
+```
+
+### 5. Frontend Setup
+
+Open another terminal:
 
 ```bash
 cd frontend
+```
+
+Install frontend dependencies:
+
+```bash
+npm install
+```
+
+Create a `.env.local` file inside the frontend folder:
+
+```dotenv
+VITE_API_URL=http://localhost:8000/api
+```
+
+Start the development server:
+
+```bash
 npm run dev
 ```
 
-Open the frontend at [http://localhost:5173](http://localhost:5173). The backend runs at [http://localhost:8000](http://localhost:8000).
+Frontend local URL:
 
-On first startup the backend creates tables and seeds the development data. The seed includes a local administrator account (`admin@libraflow.com` / `admin123`); change or remove these credentials before any non-local deployment.
-
-## API documentation
-
-FastAPI publishes interactive API documentation when the backend is running:
-
-- [Swagger UI](http://localhost:8000/docs)
-- [ReDoc](http://localhost:8000/redoc)
-- [OpenAPI schema](http://localhost:8000/openapi.json)
-
-API endpoints are prefixed with `/api`. Authenticated requests use a bearer token:
-
-```http
-Authorization: Bearer <token>
+```text
+http://localhost:5173
 ```
 
-| Area | Endpoints |
-| --- | --- |
-| Authentication and roles | `POST /api/auth/login`, `GET /api/roles`, `GET /api/users`, `POST /api/users`, `PUT /api/users/{user_id}/role` |
-| Books and circulation | `GET/POST /api/books`, `GET/PUT/DELETE /api/books/{book_id}`, `POST /api/books/{book_id}/issue`, `POST /api/books/{book_id}/return` |
-| Members | `GET/POST /api/members`, `GET/PUT/DELETE /api/members/{member_id}`, `GET /api/members/{member_id}/history` |
-| Catalog | `GET/POST /api/authors`, `GET/POST /api/categories`, `GET/POST /api/publishers`; each catalog resource also supports `PUT` and `DELETE` on `/{item_id}` |
-| Dashboard and operations | `GET /api/dashboard`, `GET /api/reports`, `GET /api/fines`, `GET /api/activity-logs` |
-| Health | `GET /health`, `GET /api/health` |
+## API Configuration
 
-Successful responses use `{ "success": true, "message": "...", "data": ... }`; errors use the same envelope with `success: false`. Collection endpoints may include pagination metadata.
+The frontend communicates with the backend using Axios.
 
-## Tests and checks
+The API base URL is configured through:
 
-Run the backend test suite from the repository root:
+```javascript
+const baseURL = (
+  import.meta.env.VITE_API_URL ||
+  "http://localhost:8000/api"
+).replace(/\/+$/, "");
+```
+
+For local development:
+
+```dotenv
+VITE_API_URL=http://localhost:8000/api
+```
+
+For Railway production:
+
+```dotenv
+VITE_API_URL=https://booksvault-production.up.railway.app/api
+```
+
+Configure the production value in:
+
+**Railway → Frontend Service → Variables**
+
+Vite environment variables are included during the frontend build, so redeploy after changing them.
+
+## Railway Deployment
+
+### Frontend Deployment
+
+The React frontend is deployed as a separate Railway service.
+
+| Setting | Value |
+|---|---|
+| Root Directory | `/frontend` |
+| Builder | Railpack |
+| Build Command | `npm run build` |
+| Start Command | `npm start` |
+| Production Output | `dist` |
+
+The frontend production start script:
+
+```json
+"start": "serve -s dist -l $PORT"
+```
+
+Install the production server:
+
+```bash
+npm install serve
+```
+
+### Frontend Environment Variable
+
+```dotenv
+VITE_API_URL=https://booksvault-production.up.railway.app/api
+```
+
+### Backend Deployment
+
+The backend is deployed separately using FastAPI.
+
+Canonical application entry point:
+
+```text
+backend.app.main:app
+```
+
+Example start command:
+
+```bash
+uvicorn backend.app.main:app --host 0.0.0.0 --port $PORT
+```
+
+Configure backend environment variables, database connectivity, and CORS in Railway.
+
+### CORS Configuration
+
+Allow your actual deployed frontend domain in the FastAPI backend.
+
+```python
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=[
+        "https://YOUR-FRONTEND-DOMAIN"
+    ],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
+```
+
+Replace the example domain with the actual Railway frontend domain.
+
+## API Endpoints
+
+All application API endpoints are mounted under `/api`.
+
+| Module | Endpoint | Description |
+|---|---|---|
+| Authentication | `POST /api/auth/login` | User login |
+| Roles | `GET /api/roles` | Retrieve roles |
+| Users | `GET /api/users` | Retrieve users |
+| Users | `POST /api/users` | Create users |
+| Users | `PUT /api/users/{user_id}/role` | Update user role |
+| Books | `GET /api/books` | Retrieve books |
+| Books | `POST /api/books` | Add a book |
+| Books | `GET /api/books/{book_id}` | Retrieve book details |
+| Books | `PUT /api/books/{book_id}` | Update book |
+| Books | `DELETE /api/books/{book_id}` | Delete book |
+| Circulation | `POST /api/books/{book_id}/issue` | Issue a book |
+| Circulation | `POST /api/books/{book_id}/return` | Return a book |
+| Members | `/api/members` | Manage members |
+| Catalog | `/api/authors` | Manage authors |
+| Catalog | `/api/categories` | Manage categories |
+| Catalog | `/api/publishers` | Manage publishers |
+| Dashboard | `GET /api/dashboard` | Dashboard information |
+| Reports | `GET /api/reports` | Library reports |
+| Fines | `GET /api/fines` | Fine records |
+| Activity | `GET /api/activity-logs` | Activity history |
+
+### API Documentation
+
+- Swagger UI: https://booksvault-production.up.railway.app/docs
+- ReDoc: https://booksvault-production.up.railway.app/redoc
+- OpenAPI JSON: https://booksvault-production.up.railway.app/openapi.json
+
+## Authentication and Security
+
+BooksVault uses JWT-based authentication.
+
+- Users authenticate through the login endpoint.
+- The backend generates a JWT access token.
+- The frontend stores the token in session storage.
+- Axios attaches the token to authenticated requests.
+- The backend validates the token and checks user permissions.
+- Role-based access control restricts protected operations.
+
+Authenticated request example:
+
+```http
+Authorization: Bearer <your-access-token>
+```
+
+Security considerations:
+
+- Use a strong, unique JWT signing secret.
+- Never expose backend secrets in frontend variables.
+- Configure HTTPS for production.
+- Restrict CORS to trusted frontend domains.
+- Do not use development credentials in production.
+- Protect database credentials and environment files.
+
+## Testing and Build Verification
+
+### Backend Tests
 
 ```bash
 pytest -q
 ```
 
-Build the frontend:
+### Frontend Production Build
 
 ```bash
 cd frontend
 npm run build
 ```
 
-The frontend package currently provides a production build command but no automated frontend test script.
+The production files are generated in the `dist` directory.
 
-## Future improvements
+The current frontend package does not include a dedicated automated frontend test script.
 
-- Add and maintain Alembic revision scripts for schema changes.
-- Add automated frontend unit and end-to-end tests to CI.
-- Replace development seed credentials and default secrets with deployment-time provisioning.
-- Configure restrictive CORS origins and production database backups.
-- Add real product screenshots and verified user testimonials.
-- Publish a license that matches the project's intended reuse.
+## Advantages
+
+1. Centralized management of books, members, and circulation.
+2. Improved efficiency by reducing manual library record management.
+3. Role-based security for administrators, librarians, and members.
+4. Quick catalog discovery through search and filtering.
+5. Structured communication between frontend and backend.
+6. Scalable architecture with separate frontend and backend services.
+7. Responsive design for different screen sizes.
+8. Maintainable code through modular backend architecture and reusable frontend components.
+
+## Limitations
+
+1. Requires an internet connection for accessing the deployed application.
+2. Backend availability depends on the hosting platform.
+3. Performance depends on server and database resources.
+4. JWT security requires proper token management.
+5. Further automated frontend testing is needed.
+6. Advanced library integrations and external catalog synchronization are not currently included.
+
+## Future Enhancements
+
+- Add automated frontend unit and end-to-end testing.
+- Introduce email notifications for due dates and overdue books.
+- Implement barcode or QR-code scanning.
+- Add advanced analytics and graphical reports.
+- Introduce automated fine calculation.
+- Improve library search with advanced filtering.
+- Add database backup and recovery mechanisms.
+- Maintain Alembic migration revision scripts.
+- Improve accessibility and multilingual support.
+
+## Project Information
+
+**Project Name:** BooksVault  
+**Project Type:** Full-Stack Web Application  
+**Domain:** Library Management System  
+**Frontend:** React + Vite  
+**Backend:** FastAPI + Python  
+**Database:** MySQL / SQLite  
+**Deployment:** Railway  
+
+**GitHub Repository:**  
+https://github.com/abhisheksingh-4/BooksVault
+
+**Author:** Abhishek Singh
 
 ## License
 
-No license file is currently included. Until a license is added, reuse and redistribution are not granted by this repository.
-
-## Author
-
-**Wajid-901** · [GitHub](https://github.com/Wajid-901)
+No license file is currently included in this repository. Until a license is added, reuse and redistribution are not granted by the repository.
