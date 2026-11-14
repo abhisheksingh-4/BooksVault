@@ -328,7 +328,7 @@ function LandingPage() {
             <a href="#about" className="transition hover:text-white">About</a>
             <a href="#features" className="transition hover:text-white">Features</a>
             <a href="#contact" className="transition hover:text-white">Contact</a>
-            <a href="https://github.com/Wajid-901/LibraFlow" target="_blank" rel="noreferrer" className="inline-flex items-center gap-1.5 transition hover:text-white"><Github size={14} /> GitHub</a>
+            <a href="https://github.com/abhisheksingh-4/BooksVault" target="_blank" rel="noreferrer" className="inline-flex items-center gap-1.5 transition hover:text-white"><Github size={14} /> GitHub</a>
           </nav>
         </div>
         <div className="border-t border-white/15 py-4 text-center font-mono text-[9px] uppercase tracking-[0.14em] text-[#9eaa9e]">© {new Date().getFullYear()} BooksVault · A library in good order</div>
